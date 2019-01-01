@@ -1,0 +1,7 @@
+Windows:
+
+gcc -o sharedkey azure_blob_sharedkey.c -Id:\DevWorkspace\C\HMAC-02\openssl-lib\include -Ld:\DevWorkspace\C\HMAC-02\openssl-lib\lib\ -l libcrypto
+
+Linux:
+
+gcc -o sharedkey azure_blob_sharedkey.c -I/usr/local/openssl/include -L/usr/local/openssl/lib -l crypto
