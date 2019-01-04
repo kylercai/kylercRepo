@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CNTVNginxBlobURLHelper {
-	protected static byte[] notDecodeBytes = {' ', '+'};
+	protected static char[] notDecodeBytes = {' ', '+'};
 	protected static String[] notDecodeBytesHexCode = {"%20", "%2B"};
-	protected static byte[] notEncodeBytes = {' ', '+', '~', '!', '*', '(', ')', '/', '\''};
+	protected static char[] notEncodeBytes = {' ', '+', '~', '!', '*', '(', ')', '/', '\''};
 	protected static String[] controlCharsCode = {"%00", "%01", "%02", "%03", "%04", "%05", "%06", "%07", "%08",
 							"%09", "%0A", "%0B", "%0C", "%0D", "%0E", "%0F", "%10", "%11", "%12", "%13", "%14",
 							"%15", "%16", "%17", "%18", "%19", "%1A", "%1B", "%1C", "%1D", "%1E", "%1F", "%7F"};
@@ -53,7 +53,7 @@ public class CNTVNginxBlobURLHelper {
 		// 对每个子串进行处理，得到decode后的URL。此步骤decode会还原成原始的字符串，主要用途在于消除不同浏览器对
 		// 页面中嵌入URL转码的不同行为带来的影响
 		for ( String suburl : splitURLs ) {
-			if ( (suburl.length() == 1) && isByteInSet((byte)suburl.charAt(0), notDecodeBytes) ) {
+			if ( (suburl.length() == 1) && isCharInSet(suburl.charAt(0), notDecodeBytes) ) {
 				// 如果子串是空格' '或者 '+'，那么不进行decode，原样保留。参考以上5.1.1注释
 				decodedURL.append(suburl);
 			} else {
@@ -75,16 +75,16 @@ public class CNTVNginxBlobURLHelper {
 		HashMap hexCodeMap = getNotDecodeBytesHexCodeMap(notDecodeBytes, notDecodeBytesHexCode);
 		// 对每个子串进行处理，得到encode后的URL
 		for ( String suburl : splitURLs ) {
-			if ( (suburl.length() == 1) && isByteInSet((byte)suburl.charAt(0), notEncodeBytes) ) {
+			if ( (suburl.length() == 1) && isCharInSet(suburl.charAt(0), notEncodeBytes) ) {
 				// 子串内容是这些字符之一：' ', '+'，'~', '!', '*', '(', ')', '/', '\''等字符
 				
-				if ( isByteInSet((byte)suburl.charAt(0), notDecodeBytes) ) {
+				if ( isCharInSet(suburl.charAt(0), notDecodeBytes) ) {
 					// 如果子串是空格' '或者 '+'，那么分别用对应的%编码进行替换。参考以上5.2.1注释
-					String hexCode = (String)hexCodeMap.get((byte)suburl.charAt(0));
+					String hexCode = (String)hexCodeMap.get(suburl.charAt(0));
 					encodedURL.append(hexCode);
 				} else {
 					// 如果子串是' ', '+', '~', '!', '*', '(', ')', '/', '\''等字符，保持原样放入最终URL。参考以上5.2.2注释
-					encodedURL.append(String.valueOf((char)suburl.charAt(0)));
+					encodedURL.append(String.valueOf(suburl.charAt(0)));
 				}
 			} else {
 				// 对子串内容不包括' ', '+', '~', '!', '*', '(', ')', '/', '\''等字符的情况，按照指定编码方式encode
@@ -120,10 +120,10 @@ public class CNTVNginxBlobURLHelper {
 		return returnStr;
 	}
 	
-	protected static boolean isByteInSet(byte b, byte[] byteSet) {
+	protected static boolean isCharInSet(char ch, char[] charSet) {
 		boolean is = false;
-		for ( byte by : byteSet ) {
-			if ( b == by ) {
+		for ( char c : charSet ) {
+			if ( c == ch ) {
 				is = true;
 				break;
 			}
@@ -131,21 +131,26 @@ public class CNTVNginxBlobURLHelper {
 		return is;
 	}
 
-	protected static ArrayList<String> splitURL(String receivedURL, byte[] splitBytes) {
+	protected static ArrayList<String> splitURL(String receivedURL, char[] splitChars) {
 		ArrayList<String> subURLs = new ArrayList<String>();
 		
-		byte[] receivedURLBytes = receivedURL.getBytes();
+		//byte[] receivedURLBytes = receivedURL.getBytes();
+		
+		char[] receivedURLChars = new char[receivedURL.length()];
+		receivedURL.getChars(0, receivedURL.length(), receivedURLChars, 0);
+
 		StringBuffer suburl = new StringBuffer("");
-		for ( byte b : receivedURLBytes ) {
-			if ( isByteInSet(b, splitBytes) ) {
+		//for ( byte b : receivedURLBytes ) {
+		for ( char ch : receivedURLChars ) {
+			if ( isCharInSet(ch, splitChars) ) {
 				if ( suburl.length() != 0 ) {
 					subURLs.add(suburl.toString());
 					suburl.delete(0, suburl.length());
 				}
-				subURLs.add(String.valueOf((char)b));
+				subURLs.add(String.valueOf(ch));
 				
 			} else {
-				suburl.append((char)b);
+				suburl.append(ch);
 			}
 		}
 		if ( suburl.length() != 0 ) {
@@ -155,12 +160,12 @@ public class CNTVNginxBlobURLHelper {
 		return subURLs;
 	}
 	
-	protected static HashMap getNotDecodeBytesHexCodeMap(byte[] bytes, String[] codes) {
+	protected static HashMap getNotDecodeBytesHexCodeMap(char[] chars, String[] codes) {
 		HashMap map = new HashMap();
 
-		if ( bytes.length == codes.length ) {
-			for ( int i =0; i<bytes.length; i++) {
-				map.put(bytes[i], codes[i]);
+		if ( chars.length == codes.length ) {
+			for ( int i =0; i<chars.length; i++) {
+				map.put(chars[i], codes[i]);
 			}
 		}
 		

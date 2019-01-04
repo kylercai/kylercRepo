@@ -89,18 +89,21 @@ public class CNTVBlobOperator {
 //		//System.out.println("encoding type = " + encodingType);
 //		String rawName = URLDecoder.decode(inputName, encodingType);
 //		byte[] rawBytes = rawName.getBytes();
-		byte[] rawBytes = inputName.getBytes();
+		//byte[] rawBytes = inputName.getBytes();
+		char[] rawChars = new char[inputName.length()];
+		inputName.getChars(0, inputName.length(), rawChars, 0);
 		
 		/** Policy to get valid blob name:
 		 *  控制字符定义：Unicode值: 0x00-0x1F, 0x7F
 		 */
-		for (byte b : rawBytes ) {
-			if ( ((0<=b) && (b<=31)) || (b==127) ) {
+		//for (byte b : rawBytes ) {
+		for (char ch : rawChars ) {
+			if ( ((0<=ch) && (ch<=31)) || (ch==127) ) {
 				// this is a control character. Control characters: 0x00-0x1F, 0x7F
-				String subStr = URLEncoder.encode(String.valueOf((char)b), "UTF-8");
+				String subStr = URLEncoder.encode(String.valueOf(ch), "UTF-8");
 				validName.append(subStr);
 			} else {
-				validName.append((char)b);
+				validName.append(ch);
 			}
 		}
 		
