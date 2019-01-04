@@ -158,6 +158,9 @@ public class CNTVBlobOperator {
 		try {
 			// Test 1: upload a local file with normal file name
 			blobOp.uploadLocalFileToBlob("export", "c:\\temp\\aa.jpg", "home0/docs/life/ttys/p/");
+			blobOp.uploadLocalFileToBlob("export", "c:\\temp\\aa.jpg", "home0/docs/life/ttys/p/", "¨.jpg");
+			blobOp.uploadLocalFileToBlob("export", "c:\\temp\\aa.jpg", "home0/docs/life/ttys/p/", "101103____________________¤____.jpg");
+			blobOp.uploadLocalFileToBlob("export", "c:\\temp\\aa.jpg", "home0/docs/life/ttys/p/", "100566__¨___ì_______¨_.jpg");
 			
 			// Test 2: upload a local file without specifying expected blob name (contains special chars but NO control chars)
 			blobOp.uploadLocalFileToBlob("export", "c:\\temp\\~`!@#$%^&(),.[]{}+_- 2345678.jpg", "home0/docs/life/ttys/p/");

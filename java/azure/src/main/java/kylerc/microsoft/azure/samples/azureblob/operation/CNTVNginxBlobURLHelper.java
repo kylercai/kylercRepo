@@ -179,7 +179,18 @@ public class CNTVNginxBlobURLHelper {
 		 * 开始模拟现有web页面中嵌入的URL包含特殊和控制字符文件，页面中的URL链接被点击的情形 
 		 */
 		// urlEmbedded模拟我们在页面中嵌入的URL，指向有特殊和控制字符的blob
-		String urlEmbeded = "https://cntvuswewebblobstorage02.blob.core.windows.net/export/home0/docs/life/ttys/p/~`!@#$%^&(),.[]{}+_- 2345678\b.jpg";
+			String urlEmbeded = "";//args[1];
+//			urlEmbeded = "https://cntvuswewebblobstorage02.blob.core.windows.net/export/home0/docs/life/ttys/p/~`!@#$%^&(),.[]{}+_- 2345678.jpg";
+			urlEmbeded = "https://storacctsuswest.blob.core.windows.net/export/home0/docs/life/ttys/p/101103____________________¤____.jpg";
+			urlEmbeded = "https://storacctsuswest.blob.core.windows.net/export/home0/docs/life/ttys/p/100566__¨___ì_______¨_.jpg";
+			urlEmbeded = "https://storacctsuswest.blob.core.windows.net/export/home0/docs/life/ttys/p/~`!@#$%^&(),.[]{}+_- 2345678.jpg";
+//			urlEmbeded = "¨ì¨";
+//			urlEmbeded = "¨";
+			//urlEmbeded = "https://storacctsuswest.blob.core.windows.net/export/home0/docs/life/ttys/p/¨.jpg";
+//			urlEmbeded = "/export/home0/docs/advertisement/wahaha/sanji/p/cola^?.jpg";
+//			urlEmbeded = "/export/home0/docs/advertisement/special/C16579/20061010/images/100918_???????? ?";
+///			urlEmbeded = "/export/home0/docs/sports/special/C11680/20040813/images/101584_^?^?m.jpg";
+//			urlEmbeded = "/export/home0/docs/zhuanti/chaoxian/images/tupian/3zailushang/?";
 		
 		// 当页面中嵌入的URL被点击后，浏览器会先对其中的%进行转码，然后发送
 		String receivedURL = urlEmbeded.replaceAll("%", "%25");
