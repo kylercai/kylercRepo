@@ -29,6 +29,10 @@ char * getValidURL(char * s_str, char* validURL) {
       strcpy(validURL, en_str);
   }
 
+  free(protPrefix);
+  free(urlToEncode);
+  free(de_str);
+  
   return validURL;
 }
 
@@ -61,6 +65,6 @@ int main(void) {
   //s_str = "+_- 2345678.jpg";
 
 
-  // free(de_str);
+  free(validURL);
   return 0;
 }
