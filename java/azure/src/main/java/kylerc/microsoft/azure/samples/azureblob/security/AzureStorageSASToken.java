@@ -66,8 +66,8 @@ public class AzureStorageSASToken {
 
     public static String SignUp(byte[] keyBytes, String plain) throws UnsupportedEncodingException {
 
-        //String plainEncode = URLDecoder.decode(plain,"UTF8");
-        String plainEncode = URLEncoder.encode(plain,"UTF8");
+        String plainEncode = URLDecoder.decode(plain,"UTF8");
+        //String plainEncode = URLEncoder.encode(plain,"UTF8");
         byte[] plainBytes = plainEncode.getBytes();
 
         try {
