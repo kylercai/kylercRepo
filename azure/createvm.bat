@@ -1,12 +1,12 @@
-set myVnet=hisvnet
-set mySubnet=hissubnet01
-set myResourceGroup=hisrg
-set myVnetResSecGroup=hisnsg
-set myPublicIp=hispubip
-set myVM=hisvm01
-set myNic=hisnic01
-set myVMSize=Standard_DS2_v2
-set myLocation=ChinaNorth2
+set myVnet="hisvnet-02"
+set mySubnet="hissubnet01-02"
+set myResourceGroup="hisrg-02"
+set myVnetResSecGroup="hisnsg-02"
+set myPublicIp="hispubip-02"
+set myVM="hisvm01-02"
+set myNic="hisnic01-02"
+set myVMSize="Standard_A1"
+set myLocation="chinanorth"
 
 rem BJ VM  create
 
@@ -20,6 +20,6 @@ az network nsg rule create --resource-group %myResourceGroup% --nsg-name %myVnet
 
 az network public-ip create --name %myPublicIp% --resource-group %myResourceGroup%
 
-az network nic create --resource-group %myResourceGroup% --name %myNic% --vnet-name %myVnet% --subnet %mySubnet% --accelerated-networking true --public-ip-address %myPublicIp% --network-security-group %myVnetResSecGroup%
+az network nic create --resource-group %myResourceGroup% --name %myNic% --vnet-name %myVnet% --subnet %mySubnet% --accelerated-networking false --public-ip-address %myPublicIp% --network-security-group %myVnetResSecGroup%
 
 az vm create --resource-group %myResourceGroup% --name %myVM% --image "OpenLogic:CentOS:7.1:7.1.20150731"  --size %myVMSize%   --authentication-type password --admin-username azureuser --admin-password "onBoard@0312"  --nics %myNic%

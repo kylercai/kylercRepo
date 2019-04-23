@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aks-api-demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: aks-api-demo
+  template:
+    metadata:
+      labels:
+        app: aks-api-demo
+    spec:
+      containers:
+      - name: aks-api-demo
+        image: kcai74/aks-api-demo:v1.1
+        ports:
+        - containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: aks-api-demo
+spec:
+  type:
+    LoadBalancer
+  selector:
+    app: aks-api-demo
+  ports:
+  - port: 80
+    targetPort: 8080
+
