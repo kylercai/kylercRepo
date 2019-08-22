@@ -1,0 +1,23 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: appdeploy-role
+rules:
+- apiGroups: ["", "apps", "extensions"] # "" indicates the core API group
+  resources: ["pods", "services", "deployments"]
+  verbs: ["get", "list", "create", "update"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: app-deployer
+  namespace: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: appdeploy-role
+subjects:
+- kind: User
+  name: system:serviceaccount:default:jenkins
+  apiGroup: rbac.authorization.k8s.io
